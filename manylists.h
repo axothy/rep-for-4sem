@@ -1,8 +1,5 @@
 #pragma once
 #include "student.h"
-#include "teacher.h"
-#include "resulttable.h"
-#include "manylists.h"
 #include <list>
 #include <array>
 
@@ -12,7 +9,7 @@ namespace studentsGroup
 	"Dima", "Misha", "Sasha",
 	"Vanya", "Mihail", "Anya",
 	"Rushan", "Olya", "Katya",
-	"SHS", "Artemokky", "Raul",
+	"Alexander", "Artyom", "Raul",
 	"Vlada", "Anton", "Fedya",
 	"Alexey", "Lyoha", "Danil"
 	};
@@ -32,18 +29,14 @@ namespace tasklist
 
 class Students {
 public:
+	Students();
 	std::vector<Student*> students;
 };
 
 class Tasks {
 public:
+	Tasks();
 	std::list<std::string> taskList;
-};
-
-struct report {
-	std::string equality;
-	std::string solution;
-	std::string name;
 };
 
 class Report {

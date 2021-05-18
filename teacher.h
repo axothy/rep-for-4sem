@@ -1,8 +1,5 @@
 #pragma once
 #include "student.h"
-#include "teacher.h"
-#include "resulttable.h"
-#include "manylists.h"
 #include <vector>
 #include <queue>
 #include <map>
@@ -13,7 +10,9 @@
 
 class Teacher
 {
+	quadeq parseQuadEq(const std::string& equality);
+	void getCoeffs(std::string& str);
 public:
-	void ExamProcess(std::vector<Student*> students, std::list<std::string> taskList, std::queue<report>& reportStack);
-	void checkWorks(std::queue<report> reportStack, std::map <std::string, int>& reportExam);
+	void ExamProcess(std::vector<Student*>& students, std::list<std::string>& taskList, std::queue<report>& reportStack);
+	void checkWorks(std::queue<report>& reportStack, std::map <std::string, int>& reportExam);
 };

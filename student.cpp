@@ -1,13 +1,12 @@
 #include "student.h"
 
 
-Student::Student(std::string studName)
+Student::Student(std::string& studName)
 {
 	name = studName;
-	identificator = static_cast<StudentLevel>(rand() % 3);
 }
 
-quadeq parseQuadEq(std::string equality)
+quadeq Student::parseQuadEq(const std::string& equality)
 {
 	std::stringstream stream(equality);
 	quadeq eq_ty;
@@ -15,7 +14,7 @@ quadeq parseQuadEq(std::string equality)
 	return eq_ty;
 }
 
-void getCoeffs(std::string& str)
+void Student::getCoeffs(std::string& str)
 {
 	int charCounter = 0;
 	while (str[charCounter] != '=')
@@ -35,47 +34,40 @@ void getCoeffs(std::string& str)
 	str[charCounter + 1] = ' ';
 }
 
-void Student::SolveAndSend(std::string equality, std::queue<report>& reportStack)
-{
+void studBad::SolveAndSend(std::string equality, std::queue<report>& reportStack) {
 	report repToSend;
 	repToSend.equality = equality;
 	repToSend.name = name;
-	if (identificator == studBad)
-	{
-		repToSend.solution = "x = 0";
-	}
-	else if (identificator == studMedium)
-	{
-		if (rand() % 2 == 0)
-		{
-			repToSend.solution = "x = 0";
-		}
-		else
-		{
-			getCoeffs(equality);
-			quadeq eq_ty = parseQuadEq(equality);
-
-			double sol[2];
-			sol[0] = (-eq_ty.b - sqrt(eq_ty.b * eq_ty.b - 4.0 * eq_ty.a * eq_ty.c)) / 2.0;
-			sol[1] = (-eq_ty.b + sqrt(eq_ty.b * eq_ty.b - 4.0 * eq_ty.a * eq_ty.c)) / 2.0;
-
-			std::ostringstream stringsolution;
-			stringsolution << "x1 = " << sol[0] << " x2 = " << sol[1];
-			repToSend.solution = stringsolution.str();
-		}
-	}
-	else if (identificator == studGood)
-	{
-		getCoeffs(equality);
-		quadeq eq_ty = parseQuadEq(equality);
-
-		double sol[2];
-		sol[0] = (-eq_ty.b - sqrt(eq_ty.b * eq_ty.b - 4.0 * eq_ty.a * eq_ty.c)) / 2.0;
-		sol[1] = (-eq_ty.b + sqrt(eq_ty.b * eq_ty.b - 4.0 * eq_ty.a * eq_ty.c)) / 2.0;
-
-		std::ostringstream stringsolution;
-		stringsolution << "x1 = " << sol[0] << " x2 = " << sol[1];
-		repToSend.solution = stringsolution.str();
-	}
+	repToSend.solution = "x = 0";
 	reportStack.push(repToSend);
+}
+
+void studGood::SolveAndSend(std::string equality, std::queue<report>& reportStack) {
+	report repToSend;
+	repToSend.equality = equality;
+	repToSend.name = name;
+
+	getCoeffs(equality);
+	quadeq eq_ty = parseQuadEq(equality);
+
+	double sol[2];
+	sol[0] = (-eq_ty.b - sqrt(eq_ty.b * eq_ty.b - 4.0 * eq_ty.a * eq_ty.c)) / 2.0;
+	sol[1] = (-eq_ty.b + sqrt(eq_ty.b * eq_ty.b - 4.0 * eq_ty.a * eq_ty.c)) / 2.0;
+
+	std::ostringstream stringsolution;
+	stringsolution << "x1 = " << sol[0] << " x2 = " << sol[1];
+	repToSend.solution = stringsolution.str();
+
+	reportStack.push(repToSend);
+}
+
+const int blessRNGstudent = 2;
+
+void studMedium::SolveAndSend(std::string equality, std::queue<report>& reportStack) {
+	if (rand() % blessRNGstudent) {
+		studGood::SolveAndSend(equality, reportStack);
+	}
+	else {
+		studBad::SolveAndSend(equality, reportStack);
+	}
 }

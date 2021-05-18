@@ -1,6 +1,6 @@
 #include "teacher.h"
 
-void Teacher::ExamProcess(std::vector<Student*> students, std::list<std::string> taskList, std::queue<report>& reportStack)
+void Teacher::ExamProcess(std::vector<Student*>& students, std::list<std::string>& taskList, std::queue<report>& reportStack)
 {
 	for (std::list <std::string> ::iterator itTask = taskList.begin(); itTask != taskList.end(); itTask++)
 	{
@@ -13,7 +13,7 @@ void Teacher::ExamProcess(std::vector<Student*> students, std::list<std::string>
 	}
 }
 
-void getCoeffs(std::string& str)
+void Teacher::getCoeffs(std::string& str)
 {
 	int charCounter = 0;
 	while (str[charCounter] != '=')
@@ -34,7 +34,7 @@ void getCoeffs(std::string& str)
 }
 
 
-quadeq parseQuadEq(std::string equality)
+quadeq Teacher::parseQuadEq(const std::string& equality)
 {
 	std::stringstream stream(equality);
 	quadeq eq_ty;
@@ -42,7 +42,7 @@ quadeq parseQuadEq(std::string equality)
 	return eq_ty;
 }
 
-void Teacher::checkWorks(std::queue<report> reportStack, std::map <std::string, int>& reportExam)
+void Teacher::checkWorks(std::queue<report>& reportStack, std::map <std::string, int>& reportExam)
 {
 	while (!reportStack.empty())
 	{

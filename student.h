@@ -1,8 +1,4 @@
 #pragma once
-#include "student.h"
-#include "teacher.h"
-#include "resulttable.h"
-#include "manylists.h"
 #include <queue>
 #include <sstream>
 #include <string>
@@ -10,8 +6,14 @@
 #include <iostream>
 
 enum StudentLevel {
-	studBad, studMedium, studGood
+	studentBad, studentMedium, studentGood
 };
+
+
+struct quadeq {
+	double a, b, c;
+};
+
 
 struct report {
 	std::string equality;
@@ -21,18 +23,43 @@ struct report {
 
 class Student
 {
-private:
+protected:
+	quadeq parseQuadEq(const std::string& equality);
+	void getCoeffs(std::string& str);
+
 	std::string name;
-	StudentLevel identificator;
-
+	Student() {}
 public:
-	Student(std::string studName);
+	Student(std::string& studName);
 
+	virtual void SolveAndSend(std::string equality, std::queue<report>& reportStack) = 0;
+};
+
+
+class studBad : virtual public Student {
+protected:
+	studBad() {}
 	void SolveAndSend(std::string equality, std::queue<report>& reportStack);
+public:
+	studBad(std::string& studName) : Student(studName) {}
+
+
 };
 
+class studGood : virtual public Student {
+protected:
+	studGood() {}
+	void SolveAndSend(std::string equality, std::queue<report>& reportStack);
+public:
+	studGood(std::string& studName) : Student(studName) {}
 
 
-struct quadeq {
-	double a, b, c;
 };
+
+class studMedium : public studBad, public studGood {
+	void SolveAndSend(std::string equality, std::queue<report>& reportStack);
+public:
+	studMedium(std::string& studName) : Student(studName) {}
+
+};
+

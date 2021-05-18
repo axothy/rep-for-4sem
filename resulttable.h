@@ -1,8 +1,4 @@
 #pragma once
-#include "student.h"
-#include "teacher.h"
-#include "resulttable.h"
-#include "manylists.h"
 #include <map>
 #include <string>
 #include <iostream>
